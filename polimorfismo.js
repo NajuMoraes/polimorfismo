@@ -1,56 +1,43 @@
-class Animal {
-    constructor(nome, cor) {
+class Cliente {
+    constructor(nome, preferencial = false) {
       this.nome = nome;
-      this.cor = cor;
+      this.preferencial = preferencial;
     }
   
-    falar() {
-      return `Olá, meu nome é ${this.nome}.`;
-    }
-  }
-  
-  class Cachorro extends Animal {
-    constructor(nome, cor, raça) {
-      super(nome, cor);
-      this.raça = raça;
-    }
-  
-    latir() {
-      return `Au au!`;
+    atender() {
+      console.log(`Atendendo cliente ${this.nome} (${this.preferencial ? 'preferencial' : 'regular'})`);
     }
   }
   
-  class Gato extends Animal {
-    constructor(nome, cor, raça) {
-      super(nome, cor);
-      this.raça = raça;
+  class FilaPreferencial {
+    constructor() {
+      this.fila = [];
     }
   
-    miar() {
-      return `Miau!`;
+    adicionarCliente(cliente) {
+      this.fila.push(cliente);
+    }
+  
+    atenderProximo() {
+      if (this.fila.length === 0) {
+        console.log("A fila está vazia.");
+        return;
+      }
+  
+      const clienteAtendido = this.fila.shift();
+      clienteAtendido.atender();
     }
   }
   
-  const animais = [
-    new Cachorro("Rex", "Marrom", "Pastor Alemão"),
-    new Gato("Mimi", "Preto", "Siamês"),
-  ];
+  // Exemplo de uso
+  const fila = new FilaPreferencial();
   
-  // Percorrendo o array e imprimindo o nome e a cor
-  for (const animal of animais) {
-    console.log(`O animal "${animal.nome}" é ${animal.cor}.`);
-  }
+  fila.adicionarCliente(new Cliente("Cliente 1", true)); // Preferencial
+  fila.adicionarCliente(new Cliente("Cliente 2")); // Regular
+  fila.adicionarCliente(new Cliente("Cliente 3", true)); // Preferencial
+  fila.adicionarCliente(new Cliente("Cliente 4")); // Regular
   
-  // Chamando o método "falar()" em cada animal
-  for (const animal of animais) {
-    console.log(animal.falar());
-  }
-  
-  // Chamando o método "latir()" no cachorro
-  const cachorro = animais[0];
-  console.log(cachorro.latir());
-  
-  // Chamando o método "miar()" no gato
-  const gato = animais[1];
-  console.log(gato.miar());
+  fila.atenderProximo(); // Atende o próximo cliente (preferencial)
+  fila.atenderProximo(); // Atende o próximo cliente (preferencial)
+  fila.atenderProximo(); // Atende o próximo cliente (regular)
   
